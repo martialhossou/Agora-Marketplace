@@ -4,7 +4,7 @@
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>Agora — Marketplace (Démo)</title>
-  <meta name="description" content="Marketplace démo type Amazon : 10 vendeurs, 100 produits, recherche, filtres, tri, panier, fiche rapide, inscription/connexion. Design premium."/>
+  <meta name="description" content="Marketplace démo type Amazon : 10 vendeurs, 100 produits, recherche, filtres, tri, panier, fiche rapide, inscription/connexion. Design premium et 100% responsive."/>
   <meta name="theme-color" content="#0B132B"/>
   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&family=Sora:wght@600;700&display=swap" rel="stylesheet">
@@ -13,33 +13,43 @@
       --bg:#F5F7FB; --panel:#FFFFFF; --ink:#0B132B; --muted:#6B7388; --line:#E7EBF3;
       --accent:#2EC4B6; --accent-2:#0B8B7C; --warn:#FF6933;
       --radius:16px; --shadow:0 18px 60px rgba(9,17,34,.08);
-      --maxw:1320px;
+      --maxw:1320px; --headerH:74px;
     }
-    *{box-sizing:border-box}
-    html{scroll-behavior:smooth}
-    body{margin:0;background:
-      radial-gradient(1200px 700px at -10% -10%, rgba(46,196,182,.08), transparent 60%),
-      radial-gradient(900px 600px at 120% -20%, rgba(11,139,124,.06), transparent 60%),
-      var(--bg); color:var(--ink);
-      font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,"Noto Sans",sans-serif; line-height:1.7; overflow-x:hidden}
-    img{max-width:100%;height:auto;display:block}
+    *,*::before,*::after{box-sizing:border-box}
+    html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+    body{
+      margin:0; color:var(--ink);
+      background:
+        radial-gradient(1200px 700px at -10% -10%, rgba(46,196,182,.08), transparent 60%),
+        radial-gradient(900px 600px at 120% -20%, rgba(11,139,124,.06), transparent 60%),
+        var(--bg);
+      font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,"Noto Sans",sans-serif;
+      line-height:1.7;
+      overflow-x:hidden; /* anti-scroll horizontal global */
+    }
+    img,video{max-width:100%;height:auto;display:block}
+
     a{color:inherit;text-decoration:none}
-    .container{max-width:var(--maxw);margin:auto;padding-inline:24px}
+    .container{width:100%;max-width:var(--maxw);margin-inline:auto;padding-inline:24px}
+    /* pour éviter que des enfants flex/grille imposent une largeur mini */
+    .min0{min-width:0}
 
     /* ===== Header (opaque) ===== */
     header{position:sticky;top:0;z-index:90;background:#fff;border-bottom:1px solid var(--line)}
-    .nav{display:flex;align-items:center;gap:16px;min-height:74px}
-    .brand{display:flex;align-items:center;gap:10px;margin-right:auto}
+    .nav{display:flex;align-items:center;gap:12px;min-height:var(--headerH);flex-wrap:wrap}
+    .brand{display:flex;align-items:center;gap:10px;margin-right:auto;min-width:0}
     .logo-mark{width:26px;height:26px;border-radius:9px;background:conic-gradient(from 90deg,var(--accent),#7fded5,#b8fff7,var(--accent))}
-    .logo{font-family:Sora,Inter;font-weight:800;letter-spacing:.2px}
-    nav ul{display:flex;gap:22px;list-style:none;margin:0;padding:0}
+    .logo{font-family:Sora,Inter;font-weight:800;letter-spacing:.2px;white-space:nowrap}
+    nav{min-width:0}
+    nav ul{display:flex;gap:22px;list-style:none;margin:0;padding:0;flex-wrap:wrap}
     nav a{font-weight:800;position:relative;white-space:nowrap}
     nav a:after{content:"";position:absolute;left:0;bottom:-6px;height:2px;width:0;background:linear-gradient(90deg,var(--accent),var(--accent-2));transition:width .25s}
     nav a:hover:after{width:100%}
-    .search{display:flex;align-items:center;gap:8px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:.45rem .6rem;box-shadow:0 6px 20px rgba(9,17,34,.05)}
-    .search input{border:0;background:transparent;color:var(--ink);outline:none;min-width:200px}
-    .actions{display:flex;align-items:center;gap:8px}
-    .btn{display:inline-flex;align-items:center;gap:8px;padding:.6rem .9rem;border-radius:12px;border:1px solid var(--line);background:#fff;font-weight:800;cursor:pointer}
+
+    .search{display:flex;align-items:center;gap:8px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:.45rem .6rem;box-shadow:0 6px 20px rgba(9,17,34,.05);flex:1 1 320px;min-width:0}
+    .search input{border:0;background:transparent;color:var(--ink);outline:none;min-width:0;width:100%}
+    .actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap;min-width:0}
+    .btn{display:inline-flex;align-items:center;gap:8px;padding:.6rem .9rem;border-radius:12px;border:1px solid var(--line);background:#fff;font-weight:800;cursor:pointer;white-space:nowrap}
     .btn.primary{background:linear-gradient(90deg,var(--accent),var(--accent-2));border:0;color:#fff}
     .btn.ghost{background:#fff;border:1px solid var(--line)}
     .counter{display:inline-block;min-width:22px;height:22px;border-radius:999px;background:var(--warn);color:#fff;font-size:12px;font-weight:900;display:flex;align-items:center;justify-content:center}
@@ -49,11 +59,13 @@
     /* ===== Drawer mobile (opaque) ===== */
     .backdrop{position:fixed;inset:0;background:rgba(0,0,0,.55);opacity:0;visibility:hidden;transition:.25s;z-index:89}
     .backdrop.show{opacity:1;visibility:visible}
-    .drawer{position:fixed;top:0;right:0;height:100%;width:min(84vw,380px);transform:translateX(100%);transition:.3s;z-index:90;background:#fff;border-left:1px solid var(--line);display:flex;flex-direction:column}
+    .drawer{position:fixed;top:0;right:0;height:100%;width:min(84vw,380px);transform:translateX(100%);transition:.3s;z-index:90;background:#fff;border-left:1px solid var(--line);display:flex;flex-direction:column;max-width:100vw}
     .drawer.open{transform:translateX(0)}
     .drawer-head{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border-bottom:1px solid var(--line)}
     .drawer-close{border:0;background:var(--accent);color:#fff;padding:.55rem 1rem;border-radius:10px;font-weight:900}
+    .drawer-body{min-width:0}
     .drawer-body a,.drawer-body .search{display:block;padding:16px 20px;border-bottom:1px solid var(--line);font-weight:800}
+    .drawer-body .search{box-shadow:none}
 
     /* ===== Hero ===== */
     .hero{position:relative;border-bottom:1px solid var(--line);background:
@@ -65,12 +77,12 @@
     .hero-visual{border-radius:18px;overflow:hidden;box-shadow:var(--shadow);background:#eefaf8}
     .hero-visual img{width:100%;height:100%;object-fit:cover;aspect-ratio:16/10}
 
-    /* ===== Toolbar filtres ===== */
-    .toolbar{position:sticky;top:74px;z-index:70;background:#fff;border-bottom:1px solid var(--line)}
+    /* ===== Toolbar filtres (collée sous le header) ===== */
+    .toolbar{position:sticky;top:var(--headerH);z-index:70;background:#fff;border-bottom:1px solid var(--line)}
     .toolbar .container{display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr;gap:10px;align-items:center;padding-block:12px}
-    select,.input{border:1px solid var(--line);border-radius:12px;background:#fff;color:var(--ink);padding:.55rem .75rem}
+    select,.input{border:1px solid var(--line);border-radius:12px;background:#fff;color:var(--ink);padding:.55rem .75rem;width:100%;min-width:0}
     .input{display:flex;align-items:center;gap:8px}
-    .input input{border:0;outline:0;background:transparent;width:100%}
+    .input input{border:0;outline:0;background:transparent;width:100%;min-width:0}
     .muted{color:var(--muted)}
 
     /* ===== Grilles ===== */
@@ -94,14 +106,14 @@
     .sellers{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
     @media (max-width:980px){.sellers{grid-template-columns:repeat(3,1fr)}}
     @media (max-width:640px){.sellers{grid-template-columns:repeat(2,1fr)}}
-    .seller-card{display:flex;gap:12px;align-items:center;border:1px solid var(--line);border-radius:14px;background:#fff;padding:12px;box-shadow:var(--shadow)}
-    .avatar{width:46px;height:46px;border-radius:12px;overflow:hidden;background:#eef2f9}
+    .seller-card{display:flex;gap:12px;align-items:center;border:1px solid var(--line);border-radius:14px;background:#fff;padding:12px;box-shadow:var(--shadow);min-width:0}
+    .avatar{width:46px;height:46px;border-radius:12px;overflow:hidden;background:#eef2f9;flex:0 0 46px}
     .avatar img{width:100%;height:100%;object-fit:cover}
     .seller-card h4{margin:0 0 2px;font-size:15px}
     .chip{display:inline-block;padding:.25rem .5rem;border:1px solid var(--line);border-radius:999px;background:#fff;font-size:12px;font-weight:800}
 
     /* ===== Cart drawer ===== */
-    .cart{position:fixed;top:0;right:0;height:100%;width:min(86vw,420px);transform:translateX(100%);transition:.3s;z-index:95;background:#fff;border-left:1px solid var(--line);display:flex;flex-direction:column}
+    .cart{position:fixed;top:0;right:0;height:100%;width:min(86vw,420px);transform:translateX(100%);transition:.3s;z-index:95;background:#fff;border-left:1px solid var(--line);display:flex;flex-direction:column;max-width:100vw}
     .cart.open{transform:translateX(0)}
     .cart-head{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;border-bottom:1px solid var(--line)}
     .cart-body{padding:12px;overflow:auto;flex:1}
@@ -114,7 +126,7 @@
     /* ===== Modal (auth & product) ===== */
     .modal{position:fixed;inset:0;background:rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transition:.25s;z-index:96}
     .modal.show{opacity:1;visibility:visible}
-    .modal-card{width:min(92vw,520px);border:1px solid var(--line);border-radius:18px;background:#fff;box-shadow:var(--shadow);overflow:hidden}
+    .modal-card{width:min(92vw,520px);border:1px solid var(--line);border-radius:18px;background:#fff;box-shadow:var(--shadow);overflow:hidden;max-width:100vw}
     .modal-head{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;border-bottom:1px solid var(--line)}
     .modal-body{padding:16px}
     .tabs{display:flex;border-bottom:1px solid var(--line)}
@@ -123,7 +135,7 @@
     .field{display:flex;flex-direction:column;gap:6px;margin-bottom:10px}
     .field input{border:1px solid var(--line);border-radius:10px;padding:.6rem .75rem}
     .note{font-size:12px;color:var(--muted)}
-    .prod-modal{width:min(94vw,980px)}
+    .prod-modal{width:min(94vw,980px);max-width:100vw}
 
     /* ===== CTA ===== */
     .band{border:1px solid var(--line);border-radius:16px;background:linear-gradient(180deg,#fff,#f7fbfa);padding:20px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;box-shadow:var(--shadow)}
@@ -134,37 +146,28 @@
     .foot a{text-decoration:underline;color:#1c69ff}
     .to-top{position:fixed;right:16px;bottom:16px;width:46px;height:46px;border-radius:999px;border:1px solid var(--line);background:#0B132B;color:#fff;display:flex;align-items:center;justify-content:center;font-size:18px;opacity:0;visibility:hidden;transition:.25s;z-index:80}
 
-    /* ===== Responsive header ===== */
+    /* ===== Responsive header / toolbar reflow ===== */
+    @media (max-width:1100px){
+      .hero .container{grid-template-columns:1fr}
+    }
     @media (max-width:980px){
       nav{display:none}
       .hamburger{display:flex}
-      .search input{min-width:120px}
+      .actions{margin-left:auto}
       .toolbar .container{grid-template-columns:1fr 1fr 1fr 1fr 1fr}
+      .search{flex:1 1 100%} /* la barre de recherche prend la ligne si besoin */
     }
-    /* === Correction largeur mobile === */
-body { 
-  overflow-x: hidden; 
-}
-
-.container {
-  width: 100%;
-  max-width: var(--maxw);
-  margin: 0 auto;
-  padding-left: 16px;
-  padding-right: 16px;
-}
-
-img, video {
-  max-width: 100%;
-  height: auto;
-  display: block;
-}
-
+    @media (max-width:640px){
+      .container{padding-inline:16px}
+      .nav{gap:10px}
+      .search{order:3;flex:1 1 100%} /* passe à la ligne sous les boutons */
+      .toolbar .container{grid-template-columns:1fr} /* empile tout verticalement */
+    }
   </style>
 </head>
 <body>
   <!-- ===== Header ===== -->
-  <header>
+  <header id="hdr">
     <div class="container nav">
       <a class="brand" href="#home"><span class="logo-mark"></span><span class="logo">Agora</span></a>
       <nav>
@@ -175,7 +178,7 @@ img, video {
           <li><a href="#contact">Contact</a></li>
         </ul>
       </nav>
-      <div class="search"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M21 21l-3.9-3.9M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15Z" stroke="#8391a9" stroke-width="2" stroke-linecap="round"/></svg>
+      <div class="search min0"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M21 21l-3.9-3.9M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15Z" stroke="#8391a9" stroke-width="2" stroke-linecap="round"/></svg>
         <input id="q" placeholder="Rechercher produit…">
       </div>
       <div class="actions">
@@ -190,10 +193,10 @@ img, video {
     <aside class="drawer" id="drawer" aria-hidden="true">
       <div class="drawer-head"><strong>Menu</strong><button class="drawer-close" id="drawerClose">Fermer ✕</button></div>
       <div class="drawer-body">
-        <a href="#catalog">Catalogue</a>
-        <a href="#sellers">Vendeurs</a>
-        <a href="#deals">Offres</a>
-        <a href="#contact">Contact</a>
+        <a href="#catalog" onclick="closeDrawer()">Catalogue</a>
+        <a href="#sellers" onclick="closeDrawer()">Vendeurs</a>
+        <a href="#deals" onclick="closeDrawer()">Offres</a>
+        <a href="#contact" onclick="closeDrawer()">Contact</a>
         <div class="search"><input id="q2" placeholder="Rechercher…"></div>
       </div>
     </aside>
@@ -336,6 +339,14 @@ img, video {
     const yearEl=$('#year'); yearEl.textContent=new Date().getFullYear();
     const toTop=$('#toTop'); window.addEventListener('scroll',()=>{scrollY>420?toTop.classList.add('show'):toTop.classList.remove('show')},{passive:true}); toTop.addEventListener('click',()=>scrollTo({top:0,behavior:'smooth'}));
 
+    // Ajuste dynamiquement la hauteur du header pour la toolbar sticky
+    function setHeaderHeightVar(){
+      const h=document.getElementById('hdr').offsetHeight||74;
+      document.documentElement.style.setProperty('--headerH', h+'px');
+    }
+    window.addEventListener('load',setHeaderHeightVar);
+    window.addEventListener('resize',()=>{clearTimeout(window._rh); window._rh=setTimeout(setHeaderHeightVar,120);});
+
     // Image fallback: jamais de point d'interrogation
     function fallbackSVG(txt='Visuel'){
       const svg = encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' width='800' height='600'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop stop-color='%23eaf5f3'/><stop offset='1' stop-color='%23f9fdff'/></linearGradient></defs><rect width='100%' height='100%' fill='url(%23g)'/><text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' fill='%23697990' font-family='Inter,Arial' font-size='28'>${txt}</text></svg>`);
@@ -344,7 +355,7 @@ img, video {
     function secureImages(scope=document){
       scope.querySelectorAll('img').forEach(img=>{
         img.loading='lazy'; img.decoding='async'; img.referrerPolicy='no-referrer';
-        img.onerror=()=>{img.onerror=null; img.src=fallbackSVG('Aperçu produit'); img.style.objectFit='cover';};
+        img.onerror=()=>{img.onerror=null; img.src=fallbackSVG('Aperçu'); img.style.objectFit='cover';};
       });
     }
 
@@ -386,36 +397,25 @@ img, video {
         const i=PRODUCTS.length;
         const title=pick(sampleTitles[cat],i);
         const price=rand(6000,180000);
-        const rating=(Math.round((rand(30,50)/10)*10)/10); // 3.0 - 5.0
+        const rating=(Math.round((rand(30,50)/10)*10)/10);
         const id=`p${si+1}-${ci+1}-${i}`;
-        PRODUCTS.push({
-          id, title:`${title} ${rand(1,999)}`, category:cat, price, rating, sellerId:s.id,
-          img: makeImage(`${s.name}-${title}-${id}`),
-          stock: rand(0,40), pop: rand(1,1000), desc:`${title} — ${cat}. Conception premium, garantie démo.`
-        });
+        PRODUCTS.push({ id, title:`${title} ${rand(1,999)}`, category:cat, price, rating, sellerId:s.id, img: makeImage(`${s.name}-${title}-${id}`), stock: rand(0,40), pop: rand(1,1000), desc:`${title} — ${cat}. Conception premium, garantie démo.` });
       });
-      // Si moins de 10 (au cas où), compléter
       while(PRODUCTS.filter(p=>p.sellerId===s.id).length<10){
         const cat=pick(CATEGORIES,PRODUCTS.length);
         const title=pick(sampleTitles[cat],PRODUCTS.length);
         const id=`p${si+1}-x-${PRODUCTS.length}`;
-        PRODUCTS.push({
-          id, title:`${title} ${rand(1,999)}`, category:cat, price:rand(6000,180000),
-          rating:(Math.round((rand(30,50)/10)*10)/10), sellerId:s.id,
-          img: makeImage(`${s.name}-${title}-${id}`),
-          stock: rand(0,40), pop: rand(1,1000), desc:`${title} — ${cat}. Conception premium, garantie démo.`
-        });
+        PRODUCTS.push({ id, title:`${title} ${rand(1,999)}`, category:cat, price:rand(6000,180000), rating:(Math.round((rand(30,50)/10)*10)/10), sellerId:s.id, img: makeImage(`${s.name}-${title}-${id}`), stock: rand(0,40), pop: rand(1,1000), desc:`${title} — ${cat}. Conception premium, garantie démo.` });
       }
     });
 
     /* ===== Mount sellers ===== */
     const sellerGrid=$('#sellerGrid');
-    function starStr(x){const n=Math.round(x);return '★'.repeat(Math.floor(x)) + (x%1>=.5?'½':'');}
     function mountSellers(){
       sellerGrid.innerHTML=SELLERS.map(s=>`
         <article class="seller-card">
           <div class="avatar"><img src="${s.logo}" alt="${s.name}" referrerpolicy="no-referrer"></div>
-          <div style="flex:1">
+          <div class="min0" style="flex:1">
             <h4>${s.name}</h4>
             <div class="muted" style="font-size:13px">${s.city} · <span class="stars">★ ${s.rating}</span></div>
             <div style="margin-top:6px"><span class="chip">${PRODUCTS.filter(p=>p.sellerId===s.id).length} produits</span></div>
@@ -441,9 +441,9 @@ img, video {
         <div class="content">
           <div class="title">${p.title}</div>
           <div class="seller">${SELLERS.find(s=>s.id===p.sellerId).name} · <span class="stars">★ ${p.rating}</span></div>
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-top:6px">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-top:6px;gap:8px">
             <div class="price">${fmt(p.price)}</div>
-            <div style="display:flex;gap:6px">
+            <div style="display:flex;gap:6px;flex-wrap:wrap">
               <button class="btn" data-quick="${p.id}">Voir</button>
               <button class="btn primary" data-add="${p.id}">Ajouter</button>
             </div>
@@ -468,7 +468,7 @@ img, video {
         case 'priceAsc': list.sort((a,b)=>a.price-b.price); break;
         case 'priceDesc': list.sort((a,b)=>b.price-a.price); break;
         case 'rating': list.sort((a,b)=>b.rating-a.rating); break;
-        default: list.sort((a,b)=>b.pop-a.pop); // popularity
+        default: list.sort((a,b)=>b.pop-a.pop);
       }
       mountGrid(list);
     }
@@ -495,7 +495,7 @@ img, video {
         const p=PRODUCTS.find(pp=>pp.id===it.id); if(!p) return '';
         return `<div class="cart-item">
           <img src="${p.img}" alt="${p.title}" referrerpolicy="no-referrer">
-          <div>
+          <div class="min0">
             <div style="font-weight:800">${p.title}</div>
             <div class="muted" style="font-size:13px">${SELLERS.find(s=>s.id===p.sellerId).name}</div>
             <div class="price" style="margin-top:4px">${fmt(p.price)}</div>
@@ -534,20 +534,20 @@ img, video {
       pvBody.innerHTML=`
         <div style="display:grid;grid-template-columns:1fr 1.1fr;gap:16px;align-items:start">
           <div class="card" style="overflow:hidden"><img src="${p.img}" alt="${p.title}" referrerpolicy="no-referrer"></div>
-          <div>
+          <div class="min0">
             <h3 style="margin:0 0 6px">${p.title}</h3>
             <div class="muted" style="margin-bottom:8px">${p.category} · <span class="stars">★ ${p.rating}</span></div>
             <div class="price" style="font-size:22px">${fmt(p.price)}</div>
             <p style="margin:8px 0 12px">${p.desc}</p>
             <div class="seller-card" style="box-shadow:none">
               <div class="avatar"><img src="${seller.logo}" alt="${seller.name}" referrerpolicy="no-referrer"></div>
-              <div style="flex:1">
+              <div class="min0" style="flex:1">
                 <div style="font-weight:800">${seller.name}</div>
                 <div class="muted" style="font-size:13px">${seller.city} · ★ ${seller.rating}</div>
               </div>
               <button class="btn" data-pv-seller="${seller.id}">Voir boutique</button>
             </div>
-            <div style="display:flex;gap:8px;margin-top:12px">
+            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">
               <button class="btn primary" data-add="${p.id}">Ajouter au panier</button>
               <button class="btn" onclick="navigator.clipboard.writeText('${location.href.split('#')[0]}#${p.id}'); this.textContent='Lien copié'; setTimeout(()=>this.textContent='Copier le lien',1200);">Copier le lien</button>
             </div>
@@ -603,24 +603,21 @@ img, video {
 
     /* ===== Drawer mobile ===== */
     const drawer=$('#drawer'), burger=$('#burger'), backdrop=$('#backdrop'), drawerClose=$('#drawerClose');
-    const openDrawer=()=>{drawer.classList.add('open');backdrop.classList.add('show');drawer.setAttribute('aria-hidden','false')}
-    const closeDrawer=()=>{drawer.classList.remove('open');backdrop.classList.remove('show');drawer.setAttribute('aria-hidden','true')}
+    function openDrawer(){ drawer.classList.add('open'); backdrop.classList.add('show'); drawer.setAttribute('aria-hidden','false'); }
+    function closeDrawer(){ drawer.classList.remove('open'); backdrop.classList.remove('show'); drawer.setAttribute('aria-hidden','true'); }
     burger.addEventListener('click',openDrawer); drawerClose.addEventListener('click',closeDrawer); backdrop.addEventListener('click',closeDrawer);
 
     /* ===== Init ===== */
     function init(){
       mountOptions(); mountSellers(); mountGrid(PRODUCTS); applyFilters(); updateCartCount(); refreshAuth();
-      secureImages(document);
-      // search sync
+      secureImages(document); setHeaderHeightVar();
       [q,q2,searchMain].forEach(inp=>inp&&inp.addEventListener('input',()=>{clearTimeout(inp._d); inp._d=setTimeout(applyFilters,150)}));
-      // deep link product
       if(location.hash.startsWith('#p')){ const id=location.hash.slice(1); setTimeout(()=>openPV(id), 300); }
     }
     init();
 
     // Cart open from header
     $('#btnCart').addEventListener('click',openCart);
-
   </script>
 </body>
 </html>
